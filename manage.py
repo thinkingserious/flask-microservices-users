@@ -8,6 +8,13 @@ app = create_app()
 manager = Manager(app)
 
 @manager.command
+def seed_db():
+    """Seeds the database."""
+    db.session.add(User(username='elmer', email="elmer.thomas@gmail.com"))
+    db.session.add(User(username='thinkingserious', email="elmer@thinkingserious.com"))
+    db.session.commit()
+
+@manager.command
 def recreate_db():
     """Recreates a database."""
     db.drop_all()

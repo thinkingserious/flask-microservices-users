@@ -52,3 +52,40 @@ http://192.168.99.100:5001/users
 docker-compose run users-service python manage.py recreate_db
 docker-compose run users-service python manage.py seed_db
 ```
+
+# Create and Configure an IAM User
+```bash
+IAM -> Create User
+User name: testdriven
+Groups: Test
+Group Policy: AdministratorAccess
+Region: us-east-1a
+[Create a ~/.aws/credentials file](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html)
+aws configure
+```
+
+Git access keys [here](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html).
+
+# Create Deployment Machine
+
+```bash
+docker-machine create --driver amazonec2 awstestdriven
+docker-machine env awstestdriven
+eval $(docker-machine env awstestdriven)
+```
+
+Spin up the containers, create the database, seed, and run the tests:
+
+```bash
+docker-compose -f docker-compose-prod.yml up -d --build
+docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
+docker-compose -f docker-compose-prod.yml run users-service python manage.py seed_db
+docker-compose -f docker-compose-prod.yml run users-service python manage.py test
+docker-machine ip awstestdriven
+```
+
+Check environment
+
+```bash
+docker-compose -f docker-compose-prod.yml run users-service env
+```

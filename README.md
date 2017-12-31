@@ -24,6 +24,12 @@ docker-compose run users-service python manage.py test
 docker-compose up -d --build
 ```
 
+# Log into Environment
+
+```bash
+eval "$(docker-machine env testdriven)"
+```
+
 # Kill all Running Docker Images
 
 ```bash
@@ -88,4 +94,48 @@ Check environment
 
 ```bash
 docker-compose -f docker-compose-prod.yml run users-service env
+```
+
+# Regnerate Certs if "Unable to query Docker version"
+
+```bash
+docker-machine regenerate-certs awstestdriven
+```
+
+# Stuck in Saved State?
+
+1. Start virtualbox - virtualbox
+2. Select the VM and click "start"
+3. Exit the VM and select "Power off the machine"
+4. Exit virtualbox
+
+# Stop the containers
+
+```bash
+docker-compose stop
+```
+
+# Bring down the containers
+
+```bash
+docker-compose down
+```
+
+# Force a build
+
+```bash
+docker-compose build --no-cache
+```
+
+# Remove images
+
+```bash
+docker rmi $(docker images -q)
+```
+# Postgres Access
+
+```bash
+docker exec -ti users-db psql -U postgres -W
+\c users_dev
+select * from users;
 ```

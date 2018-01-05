@@ -7,6 +7,7 @@ from project import create_app
 
 app = create_app()
 
+
 class TestDevelopmentConfig(TestCase):
     def create_app(self):
         app.config.from_object('project.config.DevelopmentConfig')
@@ -51,4 +52,3 @@ class TestProductionConfig(TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-

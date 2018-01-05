@@ -1,11 +1,11 @@
 # Initial Setup
 
 ```bash
-docker-machine create -d virtualbox testdriven
-eval "$(docker-machine env testdriven)"
+docker-machine create -d virtualbox testdriven-dev
+eval "$(docker-machine env testdriven-dev)"
 docker-compose build
 docker-compose up -d
-TESTDRIVEN_IP="$(docker-machine ip testdriven)"
+TESTDRIVEN_IP="$(docker-machine ip testdriven-dev)"
 curl http://$TESTDRIVEN_IP:5001/ping
 docker-compose logs -f users-service
 ```
@@ -16,7 +16,15 @@ docker-machine rm testdriven
 
 # Run Tests
 
-docker-compose run users-service python manage.py test
+docker-compose -f docker-compose-dev.yml run users-service python manage.py test
+
+# Run Tests with Coverage
+
+docker-compose -f docker-compose-dev.yml run users-service python manage.py cov
+
+# Run Flake Linter
+
+docker-compose -f docker-compose-dev.yml run users-service flake8 project
 
 # Rebuild and Run Docker Container in the Background
 
@@ -27,7 +35,7 @@ docker-compose up -d --build
 # Log into Environment
 
 ```bash
-eval "$(docker-machine env testdriven)"
+eval "$(docker-machine env testdriven-dev)"
 ```
 
 # Kill all Running Docker Images
@@ -77,7 +85,7 @@ Git access keys [here](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-
 ```bash
 docker-machine create --driver amazonec2 awstestdriven
 docker-machine env awstestdriven
-eval $(docker-machine env awstestdriven)
+eval $(docker-machine env testdriven-prod)
 ```
 
 Spin up the containers, create the database, seed, and run the tests:
@@ -87,7 +95,7 @@ docker-compose -f docker-compose-prod.yml up -d --build
 docker-compose -f docker-compose-prod.yml run users-service python manage.py recreate_db
 docker-compose -f docker-compose-prod.yml run users-service python manage.py seed_db
 docker-compose -f docker-compose-prod.yml run users-service python manage.py test
-docker-machine ip awstestdriven
+docker-machine ip testdriven-prod
 ```
 
 Check environment
@@ -99,7 +107,7 @@ docker-compose -f docker-compose-prod.yml run users-service env
 # Regnerate Certs if "Unable to query Docker version"
 
 ```bash
-docker-machine regenerate-certs awstestdriven
+docker-machine regenerate-certs testdriven-prod
 ```
 
 # Stuck in Saved State?

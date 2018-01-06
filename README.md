@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/thinkingserious/flask-microservices-users.svg?branch=master)](https://travis-ci.org/thinkingserious/flask-microservices-users)
+
 # Initial Setup
 
 ```bash

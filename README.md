@@ -31,7 +31,7 @@ docker-compose -f docker-compose-dev.yml run users-service flake8 project
 # Rebuild and Run Docker Container in the Background
 
 ```bash
-docker-compose up -d --build
+docker-compose -f docker-compose-dev.yml up -d --build
 ```
 
 # Log into Environment

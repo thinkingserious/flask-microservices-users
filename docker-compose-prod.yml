@@ -4,7 +4,7 @@ services:
 
   users-db:
     container_name: users-db
-    build: ./project/db
+    build: ./users/db
     ports:
         - 5435:5432  # expose ports - HOST:CONTAINER
     environment:
@@ -19,7 +19,7 @@ services:
     expose:
       - '5000'
     environment:
-      - APP_SETTINGS=project.config.ProductionConfig
+      - APP_SETTINGS=users.config.ProductionConfig
       - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_prod
       - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
     depends_on:

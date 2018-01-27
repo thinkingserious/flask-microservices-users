@@ -1,8 +1,8 @@
 import json
 
-from project.tests.base import BaseTestCase
-from project import db
-from project.api.models import User
+from users.tests.base import BaseTestCase
+from users import db
+from users.api.models import User
 
 
 def add_user(username, email):

@@ -2,14 +2,14 @@ import coverage
 import unittest
 
 from flask_script import Manager
-from project import create_app, db
-from project.api.models import User
+from users import create_app, db
+from users.api.models import User
 
 COV = coverage.coverage(
     branch=True,
-    include='project/*',
+    include='users/*',
     omit=[
-        'project/tests/*'
+        'users/tests/*'
     ]
 )
 COV.start()
@@ -34,7 +34,7 @@ def recreate_db():
 @manager.command
 def cov():
     """Runs the unit tests with coverage."""
-    tests = unittest.TestLoader().discover('project/tests')
+    tests = unittest.TestLoader().discover('users/tests')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         COV.stop()
@@ -49,7 +49,7 @@ def cov():
 @manager.command
 def test():
     """Runs the tests without code coverage."""
-    tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
+    tests = unittest.TestLoader().discover('users/tests', pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         return 0

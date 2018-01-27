@@ -65,8 +65,8 @@ http://192.168.99.100:5001/users
 # Setup DB
 
 ```bash
-docker-compose run users-service python manage.py recreate_db
-docker-compose run users-service python manage.py seed_db
+docker-compose -f docker-compose-dev.yml  run users-service python manage.py recreate_db
+docker-compose -f docker-compose-dev.yml  run users-service python manage.py seed_db
 ```
 
 # Create and Configure an IAM User
@@ -148,4 +148,18 @@ docker rmi $(docker images -q)
 docker exec -ti users-db psql -U postgres -W
 \c users_dev
 select * from users;
+```
+
+# Start React frontend
+
+```bash
+cd client
+npm start
+```
+
+# Test React frontend
+
+```bash
+cd client
+npm test
 ```
